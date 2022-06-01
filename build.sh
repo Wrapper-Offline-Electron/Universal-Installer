@@ -3,7 +3,7 @@
 # Please use this only for Unix-like operating systems! Use 'build.ps1' for Windows!
 
 windows="386 amd64"
-darwin="amd64 arm64"
+darwin="amd64"
 linux="amd64"
 
 runplatform() {

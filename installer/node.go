@@ -74,7 +74,7 @@ func InstallNode(path string) {
 			log.Fatalln("Failed to unzip file '"+pathToNode+":", err)
 		}
 	case "darwin", "linux":
-		installArgs := make([]interface{}, 3)
+		installArgs := make([]interface{}, 0, 3) // Allocates, size of 3
 		installArgs = append(installArgs, "https://nodejs.org/dist/latest-v16.x/")
 		if runtime.GOOS == "linux" {
 			installArgs = append(installArgs, LINUX_NODE)
