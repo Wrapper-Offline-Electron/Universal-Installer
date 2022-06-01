@@ -1,6 +1,10 @@
 # Universal-Installer
 Wrapper Offline Electron Universal Installer
 
+## Binaries
+
+Check releases.
+
 ## Building from source
 
 **It is recommended that you clone exactly this git repository and build from root directory.**
