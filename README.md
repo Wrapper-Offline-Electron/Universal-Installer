@@ -9,7 +9,7 @@ Wrapper Offline Electron Universal Installer
 
 These scripts install latest version.
 
-Windows:
+**Windows:**
 To install: go to https://raw.githubusercontent.com/Wrapper-Offline-Electron/Universal-Installer/main/install.bat and download it by `Ctrl+S` or `File > Save Page As`,
 
 then run the bat file (double click it).
@@ -19,7 +19,7 @@ To uninstall: go to https://raw.githubusercontent.com/Wrapper-Offline-Electron/U
 
 then run the bat file (double click it).
 
-MacOS, Linux:
+**MacOS, Linux:**
 To install, go into the terminal, and run:
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Wrapper-Offline-Electron/Universal-Installer/main/install.sh)"
