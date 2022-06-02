@@ -2,7 +2,10 @@ package main
 
 import (
 	"bufio"
+	_ "embed"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -17,8 +20,12 @@ const (
 	UNINSTALL = "uninstall"
 	UPDATE    = "update"
 	RUN       = "run"
+	VERSION   = "version"
 	EXIT      = "exit"
 )
+
+//go:embed VERSION
+var UNIVERSAL_INSTALLER_VERSION string
 
 func checkSurvey(err error) {
 	if err != nil {
@@ -36,7 +43,7 @@ func main() {
 	choice := ""
 	prompt := &survey.Select{
 		Message: "Wrapper Offline Electron Universal Installer",
-		Options: []string{INSTALL, UNINSTALL, UPDATE, RUN, EXIT},
+		Options: []string{INSTALL, UNINSTALL, UPDATE, RUN, VERSION, EXIT},
 	}
 	err := survey.AskOne(prompt, &choice)
 	checkSurvey(err)
@@ -139,6 +146,43 @@ func main() {
 			fmt.Println()
 			installer.Exec(npmPath, "start")
 		}
+	case VERSION:
+		choices := []string{"Wrapper Offline Electron (installed)", "Universal Installer"}
+		choice := ""
+		prompt := &survey.Select{
+			Message: "Which version do you want to check?",
+			Options: choices,
+		}
+		err := survey.AskOne(prompt, &choice)
+		if err != nil {
+			log.Fatalln("Failed to ask prompt for the version:", err)
+		}
+
+		if choice == choices[0] {
+			_, err := os.Stat(wrapperOfflineElectronPath)
+			if os.IsNotExist(err) {
+				fmt.Println("Wrapper Offline Electron isn't installed. Please install it to check the version for the Wrapper Offline Electron.")
+			} else {
+				packageJsonPath := wrapperOfflineElectronPath + string(os.PathSeparator) + "package.json"
+				packageContents, err := ioutil.ReadFile(packageJsonPath)
+				if err != nil {
+					log.Fatalln("Error when opening '"+packageJsonPath+"' package.json file:", err)
+				}
+
+				var packageJson map[string]interface{}
+				err = json.Unmarshal(packageContents, &packageJson)
+				if err != nil {
+					log.Fatalln("Error when using json.Unmarshal(), parsing packageContents of '"+packageJsonPath+"' path:", err)
+				}
+
+				fmt.Println("Wrapper Offline Electron installed version", packageJson["version"].(string))
+			}
+		} else if choice == choices[1] {
+			fmt.Println("Universal Installer version", UNIVERSAL_INSTALLER_VERSION)
+		} else {
+			fmt.Println("Invalid choice for checking version")
+		}
+		fmt.Println()
 
 	case EXIT:
 		os.Exit(0)

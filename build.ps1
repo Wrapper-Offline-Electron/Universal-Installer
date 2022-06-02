@@ -3,7 +3,7 @@
 # Please use this only for Windows! Use 'build.sh' for Unix-like operating systems instead!
 
 $Platforms = @{
-    windows = "386", "amd64"
+    windows = "amd64"
     darwin = "amd64"
     linux = "amd64"
 }

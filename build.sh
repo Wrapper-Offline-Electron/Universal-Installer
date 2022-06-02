@@ -2,7 +2,7 @@
 # Copyright (c) 2022 Wrapper-Offline-Electron. MIT license.
 # Please use this only for Unix-like operating systems! Use 'build.ps1' for Windows!
 
-windows="386 amd64"
+windows="amd64"
 darwin="amd64"
 linux="amd64"
 
