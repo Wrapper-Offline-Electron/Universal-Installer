@@ -12,7 +12,9 @@ MACHINE="$(uname -m)"
 
 
 if [ "$MACHINE" != "amd64" ]; then
-  "abort" "Wrapper Offline Electron is only supported for 64-bit architecture for Windows, MacOS, and Linux."
+  if [ "$MACHINE" != "arm64" ]; then
+    "abort" "Wrapper Offline Electron is only supported for 64-bit architecture for Windows, MacOS, and Linux."  
+fi
 fi
 rm -rf ~/Desktop/WOE-Universal-Installer
 

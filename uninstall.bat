@@ -9,9 +9,11 @@ rem !/bin/bash
 set OS=Windows
 reg Query "HKLM\Hardware\Description\System\CentralProcessor\0" | find /i "x86" > NUL && set MACHINE=i386 || set MACHINE=amd64
 if !MACHINE! NEQ amd64 (
-  set _0=Wrapper Offline Electron is only supported for 64-bit architecture for Windows^, MacOS^, and Linux.
-  call :abort _1 0 _0
-  echo | set /p ^=!_1!
+  if !MACHINE! NEQ arm64 (
+    set _0=Wrapper Offline Electron is only supported for 64-bit architecture for Windows^, MacOS^, and Linux.
+    call :abort _1 0 _0
+    echo | set /p ^=!_1!
+  )
 )
 
 del "%USERPROFILE%\Desktop\WOE-Universal-Installer.exe"
