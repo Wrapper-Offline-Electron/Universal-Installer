@@ -25,7 +25,9 @@ Script not implemented yet for Windows.
 
 ### Straight to downloading the binary (don't do this if you used the automated script)
 
-Check releases.
+Go to [releases](https://github.com/Wrapper-Offline-Electron/Universal-Installer/releases)!
+
+Download the latest version!
 
 ## Building from source
 
