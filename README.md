@@ -7,6 +7,7 @@ Wrapper Offline Electron Universal Installer
 *Note: This installs the latest version.*
 
 **MacOS, Linux:**
+
 Go to the Terminal.
 Install:
 ```bash
