@@ -66,7 +66,7 @@ func InstallNode(path string) {
 			panic("Unsupported Windows Arch: " + runtime.GOARCH)
 		}
 
-		Install(fmt.Sprint("https://nodejs.org/dist/latest-v16.x/", nodeName, ".zip"), pathToNode)
+		Install(fmt.Sprint("https://nodejs.org/download/release/v16.15.0/", nodeName, ".zip"), pathToNode)
 
 		pathToActualNode = path + string(os.PathSeparator) + nodeName
 
@@ -75,7 +75,7 @@ func InstallNode(path string) {
 		}
 	case "darwin", "linux":
 		installArgs := make([]interface{}, 0, 3) // Allocates, size of 3
-		installArgs = append(installArgs, "https://nodejs.org/dist/latest-v16.x/")
+		installArgs = append(installArgs, "https://nodejs.org/download/release/v16.15.0/")
 		if runtime.GOOS == "linux" {
 			installArgs = append(installArgs, LINUX_NODE)
 			installArgs = append(installArgs, ".tar.xz")
