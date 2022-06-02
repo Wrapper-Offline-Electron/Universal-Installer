@@ -21,5 +21,5 @@ fi
 
 # Download
 rm -rf ~/Desktop/WOE-Universal-Installer # Make sure universal installer is removed before installing it with curl
-curl https://github.com/Wrapper-Offline-Electron/Universal-Installer/releases/download/v0.1.1/WOE-Universal-Installer-darwin-amd64 -o ~/Desktop/WOE-Universal-Installer && echo "Successfully installed." || echo "Failed to install with curl."
+curl -L https://github.com/Wrapper-Offline-Electron/Universal-Installer/releases/download/v0.1.1/WOE-Universal-Installer-darwin-amd64 -o ~/Desktop/WOE-Universal-Installer && echo "Successfully installed." || echo "Failed to install with curl."
 chmod +x ~/Desktop/WOE-Universal-Installer # make script be able to execute
