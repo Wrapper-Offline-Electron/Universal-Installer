@@ -1,25 +1,19 @@
 #!/bin/bash
 
-abort() {
-    printf "%s\n" "$@"
-    exit 1
+function abort {
+  local s
+  s="$1"
+  "echo" "-e" "$s"
+  exit 1
+  
 }
-
-# Make sure BASH Is installed
-if [ -z "${BASH_VERSION:-}" ]
-then
-    abort "Bash is required to execute this script."
-fi
-
-# Check OS
 OS="$(uname)"
 MACHINE="$(uname -m)"
-if [[ "${OS}" != "Darwin" && "${MACHINE}" != "amd64" && "${MACHINE}" != "arm64" ]]
-then
-    abort "For now, Wrapper Offline Electron Universal Installer Install File is only supported for MacOS (Darwin)."
-fi
 
-# Uninstall
+
+if [ "$MACHINE" != "amd64" ]; then
+  "abort" "Wrapper Offline Electron is only supported for 64-bit architecture for Windows, MacOS, and Linux."
+fi
 rm -rf ~/Desktop/WOE-Universal-Installer
 
-echo Successfully uninstalled.
+"echo" "-e" "Successfully uninstalled."
