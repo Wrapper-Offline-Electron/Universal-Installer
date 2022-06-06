@@ -70,7 +70,7 @@ func InstallNode(path string) {
 
 		pathToActualNode = path + string(os.PathSeparator) + nodeName
 
-		if err := Unzip(pathToNode, pathToActualNode); err != nil {
+		if err := Unzip(pathToNode, path); err != nil {
 			log.Fatalln("Failed to unzip file '"+pathToNode+":", err)
 		}
 	case "darwin", "linux":
@@ -102,9 +102,20 @@ func InstallNode(path string) {
 		log.Fatalln("Failed to change to directory '"+path+"':", err)
 	}
 
-	npmPath := pathToActualNode + string(os.PathSeparator) + "bin" + string(os.PathSeparator) + "npm"
+	npmPath := pathToActualNode
+	if runtime.GOOS != "windows" {
+		npmPath += string(os.PathSeparator) + "bin"
+	}
+	npmPath += string(os.PathSeparator) + "npm"
+
+	// When installing in Windows, electronjs runs `node` from PATH to install electron for Windows
+	// so temporarily add to the path, from node path
+	// IF EXIST c:\whatever\else SET PATH=%PATH%;c:\whatever\else
 	if runtime.GOOS == "windows" {
-		npmPath += ".exe"
+		if err := exec.Command("cmd.exe", "/c", "\"IF EXIST "+pathToActualNode+" SET PATH=%PATH%;"+pathToActualNode+"\"").Run(); err != nil {
+			log.Fatalln("Failed to set nodejs folder to PATH on Windows:", err)
+		}
+
 	}
 
 	fmt.Println()
@@ -131,6 +142,15 @@ func InstallNode(path string) {
 
 	if err := Exec(npmPath, npmInstallArguments...); err != nil {
 		log.Fatalln("Failed to install NPM packages for Wrapper Offline Electron the Wrapper itself:", err)
+	}
+
+	// Windows
+	// Remove the node folder / directory from the PATH since we're done
+	// set PATH=%PATH:C:\Program Files (x86)\Git\bin;=%
+	if runtime.GOOS == "windows" {
+		if err := exec.Command("cmd.exe", "/c", "\"set PATH=%PATH%:"+pathToActualNode+";=%\"").Run(); err != nil {
+			log.Fatalln("Failed to set nodejs folder to PATH on Windows:", err)
+		}
 	}
 
 	fmt.Println()

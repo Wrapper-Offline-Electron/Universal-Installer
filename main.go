@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"runtime"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/AlecAivazis/survey/v2/terminal"
@@ -138,9 +139,17 @@ func main() {
 		if os.IsNotExist(err) {
 			fmt.Println("Wrapper Offline Electron isn't installed. Please install it to run the app.")
 		} else {
-			npmPath := wrapperOfflineElectronPath + string(os.PathSeparator) + installer.Node() + string(os.PathSeparator) + "bin" + string(os.PathSeparator) + "npm"
+			npmPath := wrapperOfflineElectronPath + string(os.PathSeparator) + installer.Node()
+			if runtime.GOOS != "windows" {
+				npmPath += string(os.PathSeparator) + "bin"
+			}
+			npmPath += string(os.PathSeparator) + "npm"
 			if err := os.Chdir(wrapperOfflineElectronPath); err != nil {
 				log.Fatalln("Failed to Chdir (Choose directory) to path '"+path+"':", err)
+			}
+			// WINDOWS USERS EXPECTED TO INSTALL NODEJS FOR NOW
+			if runtime.GOOS == "windows" {
+				npmPath = "npm"
 			}
 			fmt.Println(">>> " + npmPath + " start")
 			fmt.Println()

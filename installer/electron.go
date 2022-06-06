@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"runtime"
 )
 
 func InstallWrapperOfflineElectron(path string) {
@@ -39,5 +40,25 @@ func InstallWrapperOfflineElectron(path string) {
 		log.Fatalln("Failed to remove zip file '"+pathToZip+"':", err)
 	}
 
-	InstallNode(pathToDir)
+	// WINDOWS USERS EXPECTED TO INSTALL NODEJS FOR NOW
+	if runtime.GOOS == "windows" {
+		// temporarily
+		if err := os.Chdir(path); err != nil {
+			log.Fatalln("Chdir path '"+path+"' error:", err)
+		}
+
+		if err := Exec("npm", "install"); err != nil {
+			log.Fatalln("'npm install' failed on path '"+path+"':", err)
+		}
+
+		if err := os.Chdir(path + string(os.PathSeparator) + "wrapper"); err != nil {
+			log.Fatalln("Chdir path '"+path+string(os.PathSeparator)+"wrapper"+"' error:", err)
+		}
+
+		if err := Exec("npm", "install"); err != nil {
+			log.Fatalln("'npm install' failed on path '"+path+string(os.PathSeparator)+"wrapper"+"':", err)
+		}
+	} else {
+		InstallNode(pathToDir)
+	}
 }

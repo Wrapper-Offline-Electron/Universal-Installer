@@ -7,10 +7,17 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
+
+	"github.com/briandowns/spinner"
 )
 
 // https://stackoverflow.com/questions/20357223/easy-way-to-unzip-file-with-golang
 func Unzip(src, dest string) error {
+	s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
+	s.Start()
+	fmt.Printf("Unzipping '%s' to '%s'\n", src, dest)
+
 	r, err := zip.OpenReader(src)
 	if err != nil {
 		return err
@@ -70,6 +77,8 @@ func Unzip(src, dest string) error {
 			return err
 		}
 	}
+
+	s.Stop()
 
 	return nil
 }
