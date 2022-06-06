@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"os/exec"
 	"runtime"
 
 	"github.com/AlecAivazis/survey/v2"
@@ -99,17 +98,10 @@ func main() {
 	}
 
 	install := func() {
-		// check line 150 too
-		// WINDOWS ONLY FOR NOW
-		if runtime.GOOS == "windows" {
-			if _, err := exec.LookPath("node"); err != nil {
-				fmt.Fprintln(os.Stderr, "Please install NodeJS, error:", err)
-				return
-			}
-			if _, err := exec.LookPath("npm"); err != nil {
-				fmt.Fprintln(os.Stderr, "NPM (Node Package Manager) comes along with NodeJS, it's not in the PATH, error:", err)
-				return
-			}
+		// check line 143 too
+		if err := installer.NodeExists(); err != nil {
+			fmt.Fprintln(os.Stderr, "NodeJS isn't installed:", err)
+			return
 		}
 		if _, err := os.Stat(wrapperOfflineElectronPath); err == nil {
 			uninstall(true)
@@ -148,16 +140,9 @@ func main() {
 			install()
 		}
 	case RUN:
-		// WINDOWS ONLY FOR NOW
-		if runtime.GOOS == "windows" {
-			if _, err := exec.LookPath("node"); err != nil {
-				fmt.Fprintln(os.Stderr, "Please install NodeJS, error:", err)
-				break
-			}
-			if _, err := exec.LookPath("npm"); err != nil {
-				fmt.Fprintln(os.Stderr, "NPM (Node Package Manager) comes along with NodeJS, it's not in the PATH, error:", err)
-				break
-			}
+		if err := installer.NodeExists(); err != nil {
+			fmt.Fprintln(os.Stderr, "Please install NodeJS, error:", err)
+			break
 		}
 
 		_, err := os.Stat(wrapperOfflineElectronPath)
@@ -172,10 +157,8 @@ func main() {
 			if err := os.Chdir(wrapperOfflineElectronPath); err != nil {
 				log.Fatalln("Failed to Chdir (Choose directory) to path '"+path+"':", err)
 			}
-			// WINDOWS USERS EXPECTED TO INSTALL NODEJS FOR NOW
-			if runtime.GOOS == "windows" {
-				npmPath = "npm"
-			}
+			// temporarily need NodeJS
+			npmPath = "npm"
 			fmt.Println(">>> " + npmPath + " start")
 			fmt.Println()
 			installer.Exec(npmPath, "start")
