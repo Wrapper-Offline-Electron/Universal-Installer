@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"runtime"
 
 	"github.com/AlecAivazis/survey/v2"
@@ -98,6 +99,18 @@ func main() {
 	}
 
 	install := func() {
+		// check line 150 too
+		// WINDOWS ONLY FOR NOW
+		if runtime.GOOS == "windows" {
+			if _, err := exec.LookPath("node"); err != nil {
+				fmt.Fprintln(os.Stderr, "Please install NodeJS, error:", err)
+				return
+			}
+			if _, err := exec.LookPath("npm"); err != nil {
+				fmt.Fprintln(os.Stderr, "NPM (Node Package Manager) comes along with NodeJS, it's not in the PATH, error:", err)
+				return
+			}
+		}
 		if _, err := os.Stat(wrapperOfflineElectronPath); err == nil {
 			uninstall(true)
 		}
@@ -135,6 +148,18 @@ func main() {
 			install()
 		}
 	case RUN:
+		// WINDOWS ONLY FOR NOW
+		if runtime.GOOS == "windows" {
+			if _, err := exec.LookPath("node"); err != nil {
+				fmt.Fprintln(os.Stderr, "Please install NodeJS, error:", err)
+				break
+			}
+			if _, err := exec.LookPath("npm"); err != nil {
+				fmt.Fprintln(os.Stderr, "NPM (Node Package Manager) comes along with NodeJS, it's not in the PATH, error:", err)
+				break
+			}
+		}
+
 		_, err := os.Stat(wrapperOfflineElectronPath)
 		if os.IsNotExist(err) {
 			fmt.Println("Wrapper Offline Electron isn't installed. Please install it to run the app.")
