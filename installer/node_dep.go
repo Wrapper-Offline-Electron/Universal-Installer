@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"runtime"
 )
 
 func NodeExists() error {
@@ -27,7 +28,13 @@ func InstallNodeDep(path string) {
 		log.Fatalln("Chdir path '"+path+"' error:", err)
 	}
 
-	if err := Exec("npm", "install"); err != nil {
+	arguments := []string{"install"}
+
+	if runtime.GOOS == "darwin" {
+		arguments = append(arguments, "--arch=x64")
+	}
+
+	if err := Exec("npm", arguments...); err != nil {
 		log.Fatalln("'npm install' failed on path '"+path+"':", err)
 	}
 

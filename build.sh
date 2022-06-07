@@ -7,7 +7,11 @@ darwin="amd64"
 linux="amd64"
 
 runplatform() {
-    GOOS=$1 GOARCH=$2 go build -o "WOE-Universal-Installer-$1-$2"
+    out="WOE-Universal-Installer-$1-$2"
+    if [ $1 = "windows" ]; then
+        out="$out.exe"
+    fi
+    GOOS=$1 GOARCH=$2 go build -o $out
 }
 
 # gc (golang) exists in this system

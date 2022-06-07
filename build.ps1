@@ -13,7 +13,11 @@ if (Get-Command "go.exe" -ErrorAction SilentlyContinue) {
     Write-Output "Starting to compile"
     foreach ($Platform in $Platforms.GetEnumerator()) {
         for ($i = 0; $i -lt $Platform.Value.Count; $i++) {
-            $Env:GOOS = $Platform.Name; $Env:GOARCH = $Platform.Value[$i]; go build -o ("WOE-Universal-Installer-$($Platform.Name)-$($Platform.Value[$i])")
+            $PlatformValue = $Platform.Value
+            if ($Platform.Name -eq "windows") {
+                $PlatformValue += ".exe"
+            }
+            $Env:GOOS = $Platform.Name; $Env:GOARCH = $Platform.Value; go build -o ("WOE-Universal-Installer-$($Platform.Name)-$PlatformValue")
         }
         Write-Output "$($Platform.Name) compiled"
     }
