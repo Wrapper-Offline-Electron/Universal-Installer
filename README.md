@@ -3,28 +3,6 @@ Wrapper Offline Electron Universal Installer
 
 ## Binaries
 
-### Automated script download (into the Desktop)
-*Note: This installs the latest version.*
-
-**MacOS, Linux:**
-
-Go to the Terminal. Run this command:
-
-Install:
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Wrapper-Offline-Electron/Universal-Installer/main/install.sh)"
-```
-
-Uninstall:
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Wrapper-Offline-Electron/Universal-Installer/main/uninstall.sh)"
-```
-
-**Windows:**
-Script not implemented yet for Windows.
-
-### Straight to downloading the binary (don't do this if you used the automated script)
-
 Go to [releases](https://github.com/Wrapper-Offline-Electron/Universal-Installer/releases)!
 
 Download the latest version!
