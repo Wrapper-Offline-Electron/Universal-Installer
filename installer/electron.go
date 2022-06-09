@@ -7,13 +7,23 @@ import (
 	"os"
 )
 
-func InstallWrapperOfflineElectron(path string) {
+func InstallWrapperOfflineElectron(path, branch string) {
 	pathToZip := path + string(os.PathSeparator) + "WrapperOfflineElectron.zip"
 	pathToDir := path + string(os.PathSeparator) + "WrapperOfflineElectron"
 
 	fmt.Println("Installing Wrapper Offline Electron... (This may take a while, please wait.)")
 
-	Install("https://github.com/jackprogramsjp/Wrapper-Offline-Electron/archive/refs/heads/main.zip", pathToZip)
+	urlToInstall := ""
+
+	if branch == "main" {
+		urlToInstall = "https://github.com/jackprogramsjp/Wrapper-Offline-Electron/archive/refs/heads/main.zip"
+	} else if branch == "beta" {
+		urlToInstall = "https://github.com/jackprogramsjp/Wrapper-Offline-Electron/archive/refs/heads/beta.zip"
+	} else {
+		log.Fatalln("Unknown branch '" + branch + "' to install from. Please use a known branch. THIS ERROR IS A BUG.")
+	}
+
+	Install(urlToInstall, pathToZip)
 
 	if err := Unzip(pathToZip, pathToDir); err != nil {
 		panic("A bug in the universal installer: " + err.Error())

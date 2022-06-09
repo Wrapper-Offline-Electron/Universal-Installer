@@ -103,10 +103,23 @@ func main() {
 			fmt.Fprintln(os.Stderr, "NodeJS isn't installed:", err)
 			return
 		}
+		branch := ""
+		prompt := &survey.Select{
+			Message: "Which branch do you want to install from? (Beta doesn't currently work! Use Main!)",
+			Options: []string{"main", "beta"},
+		}
+		err := survey.AskOne(prompt, &branch)
+		if err != nil {
+			log.Fatalln("Failed to prompt what branch they want to use:", err)
+		}
+		if branch != "main" && branch != "beta" {
+			fmt.Fprintln(os.Stderr, "Unknown branch '"+branch+"', please select 'main' or 'beta'")
+			return
+		}
 		if _, err := os.Stat(wrapperOfflineElectronPath); err == nil {
 			uninstall(true)
 		}
-		installer.InstallWrapperOfflineElectron(path)
+		installer.InstallWrapperOfflineElectron(path, branch)
 	}
 
 	switch choice {
