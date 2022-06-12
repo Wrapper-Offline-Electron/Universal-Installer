@@ -1,8 +1,8 @@
 #!/usr/bin/env pwsh
 # Only use for Windows. MacOS, Linux is fine, but you would have to install Powershell yourself, so it would be better to use the shell files.
 
-if ($PSVersionTable.PSVersion -lt 3.0) {
-    Write-Output "Powershell Version 3.0 is needed in order for this script to work."
+if ([System.Version]$PSVersionTable.PSVersion -lt [System.Version]"3.0.0.4080") {
+    Write-Output "Powershell Version 3.0 (3.0.0.4080) is needed in order for this script to work."
     exit 1
 }
 
