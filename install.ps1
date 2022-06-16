@@ -20,5 +20,5 @@ if (Test-Path $InstallerPath) {
     Remove-Item $InstallerPath
 }
 
-Invoke-WebRequest -Uri "https://github.com/Wrapper-Offline-Electron/Universal-Installer/releases/download/v0.3.0-beta%2B1/WOE-Universal-Installer-windows-amd64.exe" -OutFile $InstallerPath 
+Invoke-WebRequest -Uri "https://github.com/Wrapper-Offline-Electron/Universal-Installer/releases/download/v0.3.1-beta%2B1/WOE-Universal-Installer-windows-amd64.exe" -OutFile $InstallerPath 
 Write-Output "Successfully installed."

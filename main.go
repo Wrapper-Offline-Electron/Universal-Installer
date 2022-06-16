@@ -63,6 +63,14 @@ func main() {
 
 	wrapperOfflineElectronPath := path + string(os.PathSeparator) + "WrapperOfflineElectron"
 
+	uninstallWrapperOfflineElectronZipFile := func() {
+		if _, err := os.Stat(wrapperOfflineElectronPath + ".zip"); err == nil {
+			if err := os.Remove(wrapperOfflineElectronPath + ".zip"); err != nil {
+				log.Fatalln("Failed to remove '"+wrapperOfflineElectronPath+".zip':", err)
+			}
+		}
+	}
+
 	uninstall := func(force bool) bool {
 		if _, err := os.Stat(wrapperOfflineElectronPath); err != nil {
 			if os.IsNotExist(err) {
@@ -71,11 +79,7 @@ func main() {
 			}
 		}
 
-		if _, err := os.Stat(wrapperOfflineElectronPath + ".zip"); err == nil {
-			if err := os.Remove(wrapperOfflineElectronPath + ".zip"); err != nil {
-				log.Fatalln("Failed to remove '"+wrapperOfflineElectronPath+".zip':", err)
-			}
-		}
+		uninstallWrapperOfflineElectronZipFile()
 
 		if !force {
 			uninstall := false
@@ -118,6 +122,9 @@ func main() {
 		}
 		if _, err := os.Stat(wrapperOfflineElectronPath); err == nil {
 			uninstall(true)
+		}
+		if _, err := os.Stat(wrapperOfflineElectronPath + ".zip"); err == nil {
+			uninstallWrapperOfflineElectronZipFile()
 		}
 		installer.InstallWrapperOfflineElectron(path, branch)
 	}
