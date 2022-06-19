@@ -1,6 +1,19 @@
 # Universal-Installer
 Wrapper Offline Electron Universal Installer
 
+## Reason for Archive
+
+Wrapper Offline Electron Universal Installer was made specifically for bug testing and non-production ready testing. I made this to make it easier to test Wrapper Offline Electron without having to fully package it and then publish it. With this, I did not have to package the application, which makes it easier for OTHERS to test if the application works.
+
+This universal installer was supposed to be easy to use, but it was hard to some of the testers, and there were always bugs and issues popping up, which made development even harder for me. Simple things just kept having issues and bugs, and it just got to the point where I couldn't fix some of them (due to like connection errors for example).
+
+It was awesome to develop this Universal Installer, as it made me think new ways and let me learn so many new things. Sadly, due to too many issues with me and the testers with this, I've decided to stop maintenance of this.
+
+Thank you for helping us, Universal Installer.
+
+Regards,
+JackProgramsJP
+
 ## Binaries
 
 Go to [releases](https://github.com/Wrapper-Offline-Electron/Universal-Installer/releases)!
